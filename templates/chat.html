@@ -1,0 +1,30 @@
+ECHO esta activado.
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <title>Chat</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Chat con IA</h1>
+    <form id="chat-form">
+        <input type="text" name="mensaje" placeholder="Escribe tu mensaje" required>
+        <button type="submit">Enviar</button>
+    </form>
+    <div id="respuestas"></div>
+
+    <script>
+        $(document).ready(function() {
+            $('#chat-form').on('submit', function(e) {
+                e.preventDefault();
+                $.post('/enviar', $(this).serialize(), function(data) {
+                    $('#respuestas').append('<p><strong>Tú:</strong> ' + $('input[name="mensaje"]').val() + '</p>');
+                    $('#respuestas').append('<p><strong>IA:</strong> ' + data.respuesta + '</p>');
+                    $('input[name="mensaje"]').val(''); // Limpiar el campo de entrada
+                });
+            });
+        });
+    </script>
+</body>
+</html>
